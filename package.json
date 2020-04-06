@@ -35,7 +35,7 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "off":0
+      "off": 0
     }
   },
   "browserslist": [

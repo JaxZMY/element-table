@@ -3,7 +3,7 @@
     <el-card class="one" shadow="never">
       <div class="body">
         <h1>
-          <el-link type="primary">主持人</el-link>
+          <el-link type="primary" class="title">主持人</el-link>
         </h1>
         <el-card :shadow="shadow" class="card">{{staffList[cindex].name}}</el-card>
       </div>
@@ -12,13 +12,21 @@
         <el-button type="danger" @click="end">结束</el-button>
       </div>
     </el-card>
+    <el-card shadow="always" class="cardlink">
+      项目地址:
+      <el-link type="primary">git@github.com:JaxZMY/element-table.git</el-link>
+    </el-card>
   </div>
 </template>
 <style scope>
-.one{
+.one {
   width: 300px;
   height: 300px;
   margin: 40px auto;
+}
+.cardlink {
+  width: 400px;
+  margin: auto;
 }
 .body,
 .footer {
@@ -31,6 +39,9 @@
 } */
 .card {
   text-align: center;
+}
+.title {
+  font-size: 20px !important;
 }
 </style>
 <script>
@@ -181,8 +192,8 @@ export default {
       }
       let self = this;
       this.timer = setInterval(function() {
-        self.cindex = randomNum(0, 29);
-      }, 100);
+        self.cindex = randomNum(0, self.staffList.length - 1);
+      }, 50);
     },
     end() {
       clearInterval(this.timer);
