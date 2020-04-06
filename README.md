@@ -1,11 +1,11 @@
 # element-ui-test
 
-## Project setup
+## Project setup   安装依赖
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for development  开启项目
 ```
 npm run serve
 ```
