@@ -23,6 +23,8 @@
   width: 300px;
   height: 300px;
   margin: 40px auto;
+  /* background: url(../../static/images/tbbg.png) #010F1C; */
+  /* background-size: cover; */
 }
 .cardlink {
   width: 400px;
