@@ -202,7 +202,7 @@ export default {
     initPeople() {
       let self = this;
       axios({
-        url: "http://10.10.7.87:66/user/selectAllByStatus",
+        url: "http://10.10.1.253:66/user/selectAllByStatus",
         method: "post",
         data: {}
       })
@@ -237,7 +237,7 @@ export default {
       console.log(this.$refs.userId.$attrs.dataId);
       this.shadow = "always";
       axios({
-        url: "http://10.10.7.87:66/user/updateStatus",
+        url: "http://10.10.1.253:66/user/updateStatus",
         headers: {
           "Content-Type": "application/json"
         },
