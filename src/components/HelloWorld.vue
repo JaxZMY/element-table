@@ -3,9 +3,17 @@
     <el-card class="one" shadow="never">
       <div class="body">
         <h1>
+          <el-link type="primary" class="title">{{msg}}</el-link>
+        </h1>
+        <h1>
           <el-link type="primary" class="title">主持人</el-link>
         </h1>
-        <el-card :shadow="shadow" class="card">{{staffList[cindex].name}}</el-card>
+        <el-card
+          :shadow="shadow"
+          ref="userId"
+          class="card"
+          :dataId="staffListOnline[cindex]?staffListOnline[cindex].id:'暂无数据'"
+        >{{ staffListOnline[cindex]?staffListOnline[cindex].username:'暂无数据' }}</el-card>
       </div>
       <div class="footer">
         <el-button type="primary" @click="start">开始</el-button>
@@ -21,7 +29,7 @@
 <style scope>
 .one {
   width: 300px;
-  height: 300px;
+  height: 400px;
   margin: 40px auto;
   /* background: url(../../static/images/tbbg.png) #010F1C; */
   /* background-size: cover; */
@@ -49,11 +57,12 @@
 <script>
 //生成从minNum到maxNum的随机数
 import { randomNum } from "../utils/utils.js";
+import axios from "axios";
 export default {
   name: "HelloWorld",
   data() {
     return {
-      msg: "1231",
+      msg: "主持人",
       staffList: [
         {
           id: 0,
@@ -174,32 +183,79 @@ export default {
         {
           id: 30,
           name: "杨航"
+        },
+        {
+          id: 31,
+          name: "刘月"
         }
       ],
+      staffListOnline: [],
       shadow: "hover",
       cindex: 0,
       timer: ""
     };
   },
-  mounted() {},
+  mounted() {
+    this.initPeople();
+  },
   methods: {
+    initPeople() {
+      let self = this;
+      axios({
+        url: "http://10.10.7.87:66/user/selectAllByStatus",
+        method: "post",
+        data: {}
+      })
+        .then(res => {
+          let result = res.data.data;
+          if (res.data.code == 0) {
+            self.msg = res.data.msg;
+            self.staffListOnline = result.users;
+          }
+        })
+        .catch(error => {
+          alert(error);
+        });
+    },
     start() {
       // this.$message({
       //   message: "开始",
       //   type: "success"
       // });
+      this.initPeople();
       this.shadow = "hover";
       if (this.timer) {
         clearInterval(this.timer);
       }
       let self = this;
       this.timer = setInterval(function() {
-        self.cindex = randomNum(0, self.staffList.length - 1);
+        self.cindex = randomNum(0, self.staffListOnline.length - 1);
       }, 50);
     },
     end() {
       clearInterval(this.timer);
+      console.log(this.$refs.userId.$attrs.dataId);
       this.shadow = "always";
+      axios({
+        url: "http://10.10.7.87:66/user/updateStatus",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "post",
+        data: {
+          id: this.$refs.userId.$attrs.dataId
+        }
+      })
+        .then(res => {
+          console.log(res);
+          this.$message({
+            message: `${res.data.msg}`,
+            type: "success"
+          });
+        })
+        .catch(error => {
+          alert(error);
+        });
     }
   }
 };
