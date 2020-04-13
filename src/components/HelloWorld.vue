@@ -16,7 +16,7 @@
         >{{ staffListOnline[cindex]?staffListOnline[cindex].username:'暂无数据' }}</el-card>
       </div>
       <div class="footer">
-        <el-button type="primary" @click="start">开始</el-button>
+        <el-button type="success" @click="start">开始</el-button>
         <el-button type="danger" @click="end">结束</el-button>
       </div>
     </el-card>
@@ -247,7 +247,6 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
           this.$message({
             message: `${res.data.msg}`,
             type: "success"
